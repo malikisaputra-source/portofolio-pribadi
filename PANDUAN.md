@@ -3,31 +3,31 @@ Tidak perlu bisa coding. Cukup ikuti langkah ini pelan-pelan.
 
 ## 1. Buka dulu
 1. Ekstrak ZIP, buka foldernya.
-2. Klik dua kali `index.html` — portofolio contoh tampil di browser.
+2. Klik dua kali `index.html` — portofolio contoh tampil di browser. Klik salah satu karya untuk melihat halaman detailnya (`karya.html?id=...`).
 
 ## 2. Ganti isi (semua di `data.js`)
 1. Klik kanan `data.js` › Open with › Notepad (Windows) / TextEdit (Mac). Lebih nyaman: VS Code (gratis).
-2. Ganti teks di antara tanda kutip `"..."`. Contoh: `peran: "Fotografer Pernikahan"`.
+2. Ganti teks di antara tanda kutip `"..."`. Semua nama, klien, dan angka di sana fiktif.
 3. **Jangan hapus** tanda kutip, koma di akhir baris, atau kurung `{ } [ ]`.
-4. Simpan, lalu refresh browser (F5). Kalau halaman kosong, kemungkinan ada koma/kutip yang terhapus — cek baris terakhir yang diubah.
+4. Teks di dalam kurung kurawal, mis. `"Dari brief {sampai laporan}"`, tampil dengan huruf serif miring.
+5. Simpan, lalu refresh browser (F5). Kalau halaman kosong, cek koma/kutip di baris terakhir yang diubah.
 
-Yang bisa diganti:
-- **Nama** → di `tema.js` (`nama: "..."`), juga mode bawaan `"terang"`/`"gelap"`/`"auto"`.
-- **Judul besar** → `judulBesar` (tiap baris satu teks; baris ke-3 otomatis miring berwarna).
-- **WhatsApp** → `wa: "62812..."` (awali 62, tanpa + dan spasi). **Email** → `email`.
-- **Keahlian, alat, pengalaman, testimoni, layanan** → tinggal tambah/hapus blok `{ ... },`.
-- **Karya** → tiap karya satu blok. `kategori` bebas (tombol filter dibuat otomatis). `bentuk`: "hp", "web", "logo", "ilus" untuk ilustrasi sampul otomatis.
-- Cocok untuk desainer, developer, fotografer, mahasiswa — ganti saja kategorinya (mis. "Wedding", "Produk", "Skripsi").
+Yang bisa diganti: nama (`nama`, juga `nama` di `tema.js` untuk header), sapaan, peran, email, tautan sosial, daftar klien, karya, angka, cara kerja, tentang, riwayat, dan ajakan.
+**Karya:** tiap karya satu blok `{ ... },`. `id` harus unik tanpa spasi (dipakai di alamat `karya.html?id=...`). `unggulan: true` = tampil besar di "Karya pilihan" (idealnya 4). `bagian` memakai `p: "sendiri"`, `"pimpin"`, atau `"tim"`.
 
-## 3. Ganti foto
-1. Siapkan foto potret (portrait, idealnya 800×1000 px, < 300 KB — kecilkan di squoosh.app).
-2. Taruh di folder `img/`, misalnya `img/foto-saya.jpg`.
-3. Di `data.js` ubah `foto: "img/foto-saya.jpg"`.
-4. Foto karya: taruh di `img/`, lalu di blok karya tambahkan `gambar: "img/karya-1.jpg",` (rasio 4:3).
+## 3. Ganti gambar (semua alamatnya ada di `data.js`)
+| Slot | Berkas bawaan | Ukuran/rasio | Diubah di data.js |
+|---|---|---|---|
+| Logo/monogram (header + ikon tab) | `img/logo.svg` | persegi, mis. 256×256 | `logo` |
+| Foto profil (hero & Tentang) | `img/foto-profil.svg` | 4:5, mis. 800×1000 (`.jpg` boleh) | `foto`, `fotoAlt` |
+| Logo tempat kerja/klien (marquee) | `img/logo-klien/klien-1.svg` … | tinggi 48, lebar bebas, latar transparan | `klien[].logo` |
+| Sampul karya | `img/karya/<id>.svg` | 3:2, mis. 900×600 | `karya[].sampul` |
+| Benda 3D tiap karya/langkah | `img/objek/*.webp` | PNG/WebP latar transparan | `objek` |
+| Gambar pratinjau saat dibagikan (opsional) | `img/og.png` | 1200×630 | `og` |
+Caranya: simpan gambar barumu di folder yang sama (mis. `img/foto-profil.jpg`), lalu ubah alamatnya di data.js. Kecilkan dulu di squoosh.app (< 300 KB). Foto profil otomatis tampil hitam-putih seperti desain aslinya. Placeholder bertuliskan "Ganti dengan foto kamu"/"Ganti dengan sampul karyamu" — pastikan semuanya sudah diganti sebelum online.
 
-## 4. CV
-- Bawaan: tombol "Unduh CV" membuka `cv.html` yang dibuat otomatis dari data.js — klik "Simpan sebagai PDF".
-- Punya CV PDF sendiri? Taruh di folder, lalu `cv: "cv-saya.pdf"`.
+## 4. Warna & mode
+- Warna utama terakota: `tema.css` `--tema-utama`. Mode bawaan: `tema.js` `mode: "terang" | "gelap" | "auto"`. Pengunjung bisa menekan tombol bulan/matahari.
 
 ## 5. Online gratis — GitHub Pages
 1. Daftar di github.com (gratis).
@@ -42,14 +42,56 @@ Yang bisa diganti:
 2. Seret folder portofolio ke kotak "Drag and drop".
 3. Dapat alamat `xxx.netlify.app`. Ganti nama: **Site configuration** › **Change site name**.
 4. Update: seret ulang folder di tab **Deploys**.
-
-## 7. Form kontak
-Form memakai `mailto:` — saat dikirim, aplikasi email pengunjung terbuka dengan pesan terisi. Tanpa server, gratis selamanya.
+## 7. Kontak
+Tombol "Kirim email" membuka aplikasi email pengunjung ke alamat `email` di data.js. Tidak perlu server.
 
 ## Butuh bantuan?
-Lihat README bagian "Ubah pakai Claude" — tinggal minta "ganti warna jadi hijau" atau "tambah karya baru".
+Komen di TikTok/IG **@malikisaputra**. Lihat README bagian "Ubah pakai Claude" — tinggal minta "ganti warna jadi hijau" atau "tambah karya baru".
 
 ---
 
 <!-- kredit-maliki -->
 **Kredit:** Template oleh Maliki Saputra (@malikisaputra) — https://malikisaputra.biz.id. Kredit di footer & kepala berkas wajib dipertahankan (lihat LICENSE).
+
+<!-- panduan-ai-maliki -->
+## Ubah sendiri sesuai kebutuhanmu pakai AI
+
+Kamu tidak perlu jago coding. Template ini sudah disiapkan supaya mudah diubah AI: ada **AGENTS.md** (aturan proyek untuk AI), **DESIGN.md** (gaya desain), dan skill Claude di folder `.claude/skills/`. Pilih salah satu cara di bawah.
+
+### Cara 1: ChatGPT, Claude, atau Gemini di browser (paling gampang, gratis)
+1. Unduh ZIP template ini, lalu ekstrak.
+2. Buka chatgpt.com, claude.ai, atau gemini.google.com.
+3. Unggah berkas yang mau diubah (biasanya `index.html`, `style.css`, `app.js`, atau berkas data). Unggah juga `AGENTS.md` dan `DESIGN.md` (kalau ada) biar AI paham aturannya. ChatGPT juga bisa menerima ZIP utuh.
+4. Tulis permintaanmu (contoh di bawah), lalu minta: "Kirim ulang berkas yang diubah secara utuh."
+5. Ganti berkas lama dengan hasil dari AI, lalu buka `index.html` di browser untuk cek.
+
+### Cara 2: Claude Code (paling rapi untuk perubahan besar)
+1. Pasang Claude Code (lihat claude.com/claude-code), atau pakai aplikasi Claude Desktop tab Code.
+2. Buka folder template ini, lalu jalankan `claude` di terminal folder itu.
+3. Tulis permintaanmu. Kalau ada folder `.claude/skills/ubah-…`, Claude Code otomatis memakainya, jadi hasilnya tetap mengikuti desain aslinya.
+
+### Cara 3: Codex (OpenAI)
+1. Pasang Codex CLI atau pakai Codex di aplikasi ChatGPT.
+2. Buka folder template, jalankan `codex`. Codex otomatis membaca `AGENTS.md`.
+3. Tulis permintaanmu, cek perubahannya, lalu setujui.
+
+### Cara 4: Google Antigravity atau Gemini CLI (gratis)
+1. Antigravity: buka aplikasinya, pilih **Open Folder** ke folder template ini, lalu tulis permintaan di panel agen.
+2. Gemini CLI: jalankan `gemini` di folder template.
+3. Di awal, tulis: "Baca AGENTS.md dan DESIGN.md dulu sebelum mengubah apa pun."
+
+### Contoh permintaan yang bisa langsung kamu pakai
+- "Ganti nama, logo teks, dan warna utama jadi hijau tua sesuai usahaku: [nama usaha]."
+- "Tambahkan kolom [nama kolom] di formulir dan tampilkan di daftar."
+- "Ubah semua data contoh jadi data usahaku: [tempel datanya]."
+- "Tambahkan halaman/menu baru untuk [kebutuhan], gaya desainnya sama dengan yang sudah ada."
+- "Jelaskan dulu cara kerja aplikasi ini dengan bahasa sederhana, baru ubah [bagian]."
+
+### Tips biar hasilnya bagus
+- Satu permintaan = satu perubahan. Cek dulu hasilnya, baru minta yang berikutnya.
+- Simpan salinan folder asli sebelum mengubah, jadi bisa balik kalau ada yang rusak.
+- Kalau ada error, salin pesan errornya (klik kanan > Inspect > Console) lalu tempel ke AI.
+- Data aplikasi tersimpan di browser (localStorage). Backup dulu sebelum ganti versi.
+- Jangan hapus kredit "Template oleh @malikisaputra", dan template ini **tidak boleh diperjualbelikan** tanpa izin. Mau menjual atau kerja sama? Diskusikan dulu dengan kreatornya (@malikisaputra).
+
+Masih bingung? Komen di TikTok/IG **@malikisaputra**, nanti aku bantu.

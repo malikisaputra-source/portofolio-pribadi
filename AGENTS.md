@@ -1,8 +1,9 @@
 # AGENTS — Portofolio Pribadi
-Situs portofolio statis (HTML/CSS/JS murni, GSAP dari cdnjs). Panduan lengkap: `.claude/skills/ubah-portofolio-pribadi/SKILL.md`. Desain & token: `DESIGN.md` (WAJIB dijaga: token tema, aksesibilitas, responsif, reduced-motion).
-- Isi: `data.js` (window.DATA). Nama & mode: `tema.js`. Warna: `tema.css`.
-- Render & animasi: `app.js` (render(), renderKarya(), isiModal(), animasi(), tema/customizer).
-- Tanpa build tool. Uji 390px & 1280px, terang & gelap. Elemen baru beri `data-bagian` bila relevan.
+Situs portofolio statis (HTML/CSS/JS murni, tanpa build, tanpa library). Panduan lengkap: `.claude/skills/ubah-portofolio-pribadi/SKILL.md`. Desain & token: `DESIGN.md` (WAJIB dijaga: token tema, aksesibilitas, responsif, reduced-motion).
+- Isi & semua alamat gambar: `data.js` (window.DATA). Nama & mode: `tema.js`. Warna/font/radius: `tema.css`.
+- Render & gerak: `app.js` (beranda(), detail() untuk karya.html?id=..., akhir() ajakan+footer, gerak(), tema/customizer).
+- Gaya: `style.css` (token turunan di :root, palet gelap html[data-mode="gelap"]). Font dari Google Fonts (link di HTML), benda 3D di `img/objek/`.
+- Uji 390px & 1280px, terang & gelap. Elemen baru beri `data-bagian` bila relevan.
 
 <!-- kredit-maliki -->
 ## Kredit (jangan dihapus)

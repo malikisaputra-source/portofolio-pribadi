@@ -1,36 +1,36 @@
 ---
 name: ubah-portofolio-pribadi
-description: Pakai saat pengguna ingin mengubah isi, warna, font, bagian, animasi, karya, atau menambah fitur di template Portofolio Pribadi (website portofolio satu halaman HTML/CSS/JS + GSAP, isi dari data.js).
+description: Pakai saat pengguna ingin mengubah isi, gambar, warna, font, bagian, animasi, karya, atau menambah fitur di template Portofolio Pribadi (beranda + halaman detail karya, HTML/CSS/JS murni, isi dari data.js).
 ---
 # Ubah Portofolio Pribadi
-Baca `DESIGN.md` dulu dan jaga token, aksesibilitas (label, fokus, kontras AA, target ≥44px), responsif HP/desktop, dan reduced-motion.
+Baca `DESIGN.md` dulu dan jaga token, aksesibilitas (label, fokus, kontras AA, target ≥44px), responsif 390px/1280px tanpa geser horizontal, dan reduced-motion.
 
 ## Peta file
-- `data.js` — SEMUA isi: peran, kota, status, judulBesar[], ringkas, foto, cv, email, wa, sosial[], angka[], tentang[], keahlian[{nama,level}], alat[], karya[{judul,kategori,tahun,warna,bentuk,gambar?,ringkas,peran,klien,durasi,cerita,hasil[],tautan}], pengalaman[], testimoni[], layanan[].
-- `index.html` — kerangka: header, menu HP, hero (#atas), #tentang, #keahlian, #karya, #pengalaman, #testimoni, #layanan, #kontak, footer (kredit wajib), modal, toast.
-- `app.js` — `render()` mengisi semua bagian; `sampul()` ilustrasi SVG karya; `renderFilter/renderKarya`; `isiModal/bukaModal/tutupModal` (hash #karya-N); `renderTesti`; form mailto; mode terang/gelap (localStorage `portofolio.mode`); `animasi()` GSAP; Tema & Bagian (customizer postMessage tema/sorot/mode-pilih).
-- `style.css` — token turunan di `:root`, palet gelap `html[data-mode="gelap"]`, responsif 960px & 600px, blok customizer, reduced-motion.
-- `tema.css` / `tema.js` — token tema & nama + mode. `cv.html` — CV cetak dari data.js. `img/potret.svg`.
+- `data.js` — SEMUA isi & alamat gambar: nama, logo, foto, og, sapaan, peran, lencana, pil, latar, lead, email, sosial[], klien[{nama,logo}], pernyataan, karya[{id,unggulan,label,objek,judul,sampul,klien,peran,tahun,tag[],ringkas,angkaSamping[],tantangan,dilakukan,hasil[],statistik[],bagian[{t,p:sendiri|pimpin|tim}],pelajaran}], angka[], cara[], tentang[], pengalaman[], judul-judul. `{teks}` = serif miring.
+- `index.html` / `karya.html` — kerangka (header + <main> kosong + #akhir). Isi dibuat `app.js`.
+- `app.js` — `beranda()`, `detail()` (baca ?id=), `akhir()` (ajakan + footer + kredit wajib), `gerak()`, mode terang/gelap (localStorage `portofolio.mode`), Tema & Bagian (postMessage tema/sorot/mode-pilih/bagian-dipilih).
+- `style.css` — gaya hasil bangun ulang + blok "Tambahan template" (tema gelap, slot gambar, customizer, reduced-motion).
+- `tema.css` / `tema.js` — token tema & nama + mode. Font: Fraunces (judul) & Inter Tight (badan) dari Google Fonts. `img/`: logo.svg, foto-profil.svg, logo-klien/, karya/<id>.svg, objek/*.webp.
 
 ## Menambah bagian baru
-1. Tambah field di `data.js` (mis. `sertifikat: [{nama, tahun}]`).
-2. Tambah `<section class="bagian" id="x">` dengan `.label-bagian` bernomor di `index.html` + tautan di `.menu` DAN `#menuHp`.
-3. Render di `render()` (selalu `esc()` teks), animasi di `animasi()` dengan ScrollTrigger.
-4. Kalau data kosong, sembunyikan section (`hidden`).
+1. Tambah field di `data.js`.
+2. Tambah potongan HTML di `beranda()` memakai kelas yang ada (`section.section > .wrap`, `.label`, `.h2`), selalu lewat `esc()`/`miring()`.
+3. Elemen yang perlu muncul bertahap: tambahkan selektornya ke daftar `antre` di `gerak()` dan ke aturan `html.mo :is(...)` di style.css.
+4. Kalau data kosong, jangan render bagiannya.
 
 ## Aturan aman
 - Tanpa build/framework. Warna baru dari `--tema-*`/`color-mix`. Jangan hapus kredit footer/kepala berkas.
-- Animasi baru hanya lewat `G` (null saat reduced-motion) — halaman harus utuh tanpa GSAP.
-- Uji 390px & 1280px, terang & gelap, keyboard (Tab, Esc di modal).
+- Gambar baru selalu dirujuk dari data.js. Jangan memakai foto orang tanpa izin.
+- Uji 390px & 1280px, terang & gelap, keyboard (Tab).
 
 ## Contoh permintaan
-1. "Ganti warna jadi hijau tosca" → `tema.css` `--tema-utama: #0f766e`.
-2. "Tambah karya baru" → salin satu blok di `karya` data.js, ubah isinya; kategori baru otomatis jadi filter.
-3. "Pakai foto asli untuk karya" → taruh di img/, tambah `gambar: "img/x.jpg"` di blok karya.
-4. "Tambah bagian sertifikat" → ikuti "Menambah bagian baru".
-5. "Buat versi fotografer" → ganti kategori karya (Wedding/Produk/Jalanan), `bentuk: "ilus"` atau `gambar`, ubah layanan & harga.
-6. "Matikan tirai pembuka" → hapus `.tirai` di index.html dan dua baris `tl.to(...tirai...)` di `animasi()`.
-7. "Mode gelap jadi bawaan" → `tema.js` mode: "gelap".
+1. "Ganti warna jadi hijau tosca" → `tema.css` `--tema-utama: #5eead4` (teks di atasnya dihitung otomatis).
+2. "Tambah karya baru" → salin satu blok di `karya`, beri `id` unik, buat `img/karya/<id>.jpg`; `unggulan: true` bila mau tampil besar.
+3. "Pakai foto asliku" → simpan `img/foto-profil.jpg` (4:5), ubah `foto` di data.js.
+4. "Ganti logo klien" → simpan SVG/PNG tinggi 48 di `img/logo-klien/`, ubah `klien`.
+5. "Matikan efek mengambang" → hapus kata `float` di fungsi `obj(...)` pemanggil di app.js.
+6. "Mode gelap jadi bawaan" → `tema.js` mode: "gelap".
+7. "Tambah bagian testimoni" → ikuti "Menambah bagian baru".
 
 <!-- kredit-maliki -->
 ## Kredit (jangan dihapus)

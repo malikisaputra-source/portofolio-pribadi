@@ -1,27 +1,28 @@
 # DESIGN — Portofolio Pribadi
-Arah: editorial hangat (acuan riset portofolio #8, #17, #32, #81): krem kertas, tipografi raksasa sans + aksen serif miring, potret berbentuk lengkung, daftar karya besar, garis tipis pemisah.
+Arah "Senja Terakota": krem hangat bertekstur grain halus, terakota & hijau zaitun, judul serif Fraunces yang lembut dan tebal, gradasi senja jingga-mawar di belakang hero, potret berbingkai kertas, benda 3D berona hangat.
 
 ## Token
 | Token | Bawaan | Fungsi |
 |---|---|---|
-| --tema-utama | #b4441e terakota | tombol primer, kata miring, nomor bagian, bar keahlian |
-| --tema-aksen | #2f5d4e hijau lumut | chip alat, harga, titik status, kutip |
-| --tema-radius | 18px | kartu, sampul, modal |
-| --tema-font | Space Grotesk | semua teks; serif aksen = Instrument Serif (italic) |
-| --tema-latar/panel/nav/teks | #f4efe6 / #fbf8f2 / #f4efe6 / #1b1814 | gelap: #14120f / #1e1b17 / #14120f / #f1ebe0 |
-Turunan (style.css :root): --redup (teks sekunder), --garis (14% teks), --utama-muda, --aksen-muda, --isi-utama & --isi-nav (dihitung JS dari luminansi).
+| --tema-utama | #c8553d terakota | kata serif berwarna, rak "Semua karya", sampul detail, label "Sendiri", hover kartu, nama raksasa |
+| --tema-aksen | #6b7b4b hijau zaitun | label "/ ...", titik status, ujung gradasi rak |
+| --tema-radius | 28px | kartu besar (--r-lg); kartu kecil = 62% (--r-md); potret 28px |
+| --tema-font | "Inter Tight" (Google Fonts) | teks badan; judul = Fraunces (--judul, Google Fonts), fallback Georgia/system-ui |
+| --tema-latar/panel/nav/teks | #f6efe6 / #fffaf4 / #f6efe6 / #2a211c | gelap: #1b1512 / #261e1a / #1b1512 / #f3e9dd |
+Turunan di style.css `:root`: --bg, --ink, --ink-2 (72%), --ink-3 (52%, hanya teks besar), --line, --card, --lime/-2/-3/-deep (nama lama, isinya warna tema), --gelap, --bayang. Lapisan "Senja Terakota" di akhir style.css: --judul, --senja-1/2/3 (gradasi hero), --kertas (bayangan kertas), --tepi (tepi hangat tipis), --grain (noise SVG). Mode gelap menaikkan terakota (--lime dicampur #ffd9c7) supaya AA. JS menghitung --tema-utama-teks/-lawan dari luminansi; `.di-utama` memakainya, permukaan utama digelapkan 12% agar teks putih tetap AA.
 
 ## Tipografi
-Judul raksasa clamp(50px, 8.6vw, 136px), tracking -0.055em, line-height .9; judul bagian clamp(36–84px); lead 19–26px; badan 16–17px. Baris ke-3 judul hero = serif miring warna utama. Angka tabular.
+Font dimuat dari Google Fonts (`<link>` di index.html & karya.html, display=swap). Judul (H1, H2, angka, langkah): Fraunces 650–700, SOFT 50, opsz 120, tracking -0.03em. Baris kedua hero & kata `{...}`: Fraunces miring/SOFT 100 berwarna terakota. Label "/ Karya pilihan" Fraunces 500 zaitun. Badan Inter Tight 17px 450. Footer: nama raksasa Fraunces 800 terakota pudar.
 
 ## Komponen
-Header kaca (blur), sembunyi saat gulir turun · tombol pil 52px (utama/garis/teks) · label bagian "01 — NAMA" dengan garis · kartu karya (sampul SVG 4:3 + info) grid 12 kolom 7/5 bergantian · modal sheet dari bawah dengan navigasi sebelum/berikut · timeline baris 3 kolom dengan garis progres · testimoni carousel titik · daftar layanan 2 kolom bergaris · form isian 48px dengan galat role=alert.
+Header melayang (pil nav kaca) · lencana + pil status · potret persegi panjang sudut 28px dengan bingkai putih 6px, tepi tipis & bayangan kertas, miring 1,5° · marquee logo klien · pernyataan dengan chip · kartu karya (latar grain hangat 16:11, tepi tipis terakota, sampul + benda 3D) · angka dengan sumber · 3 langkah kartu kertas + garis ikal · rak semua karya (gradasi terakota→zaitun) · tentang + riwayat · ajakan + footer. Tombol sudut 14px.
+Detail karya: judul + pil fakta, sampul di panel gradasi, navigasi samping lengket, angka di margin, statistik, daftar peran, pelajaran, karya berikutnya.
 
 ## Motion
-GSAP 3.12.5 + ScrollTrigger (cdnjs). Easing expo.out / cubic-bezier(.22,1,.36,1). Tirai pembuka 1,3 dtk, teks naik per baris, clip-path potret, parallax ringan, reveal per bagian, bar scaleX, counter, kursor "Lihat" & tombol magnetik (hanya pointer hover). prefers-reduced-motion: GSAP tidak dijalankan, tirai disembunyikan, transisi CSS 0,01ms — konten tampil final. Tanpa GSAP (offline) halaman tetap utuh.
+Tanpa library. Judul hero muncul per kata (span .kt, jeda 70 ms, naik + tegak dari miring 4°). IntersectionObserver: kartu karya masuk dari miring -2° lalu tegak dengan pegas, kartu lain naik berurutan (--rv-d), judul tersingkap clip-path, benda 3D (rona sepia ringan, satu benda hero dikurangi) memantul lalu mengambang. Kata menyala mengikuti gulir. Marquee 42 dtk. prefers-reduced-motion: semua tampil final tanpa animasi dan judul tidak dipecah; tanpa IntersectionObserver kelas .mo dilepas otomatis (2,5 dtk).
 
 ## Aksesibilitas
-Kontras AA kedua mode; fokus 3px warna utama; target ≥44px; skip link; modal: fokus terkurung, Esc, kembali ke pemicu; filter aria-pressed; testimoni aria-live.
+Kontras AA kedua mode (teks redup kecil memakai --ink-2; kata terakota dicampur 18% warna teks); fokus 2px; skip link; logo klien punya nama tersembunyi; benda dekoratif aria-hidden; tanpa geser horizontal 390–1280px.
 
 <!-- kredit-maliki -->
 ## Kredit (jangan dihapus)
